@@ -2,6 +2,8 @@
 
 Mercel is a small-scale clone of Vercel, designed to mimic the UI and functionality of Vercel as closely as possible. It is a personal project and is not intended for production use. The project is still under development and may contain bugs, non-optimal code, and unoptimized performance. If the repository gains enough stars, I will continue to work on it to make it production-ready.
 
+[video](https://github.com/user-attachments/assets/febe85fd-eef9-4f8c-9340-e99f251d6eb1)
+
 ---
 
 ## 🛠️ Technologies Used
