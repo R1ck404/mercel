@@ -156,8 +156,9 @@ const setupContainer = async (
             status: "ERROR",
             build_logs: {
                 ...deployment?.build_logs || {},
-                error: error.message,
-            }
+                error: error.message
+            },
+            port: port,
         });
         throw new Error(`Error starting container: ${error.message}`);
     });
@@ -181,7 +182,8 @@ const setupContainer = async (
 
         await pb.collection("deployments").update(deployment.id, {
             status: "READY",
-            build_logs: temp_logs
+            build_logs: temp_logs,
+            port: port,
         });
 
         console.log('Build complete.');
@@ -189,6 +191,7 @@ const setupContainer = async (
         await pb.collection("deployments").update(deployment.id, {
             status: "ERROR",
             build_logs: [...temp_logs, error?.message ?? 'Unknown error'],
+            port: port,
         });
         throw new Error(`Error during setup: ${error?.message}`);
     }

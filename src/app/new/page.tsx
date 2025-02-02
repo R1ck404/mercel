@@ -78,8 +78,6 @@ export default function New() {
             return;
         }
 
-
-
         const promise = pb.collection("repositories").create({
             owner: user.id,
             name: repository.name,
@@ -99,6 +97,10 @@ export default function New() {
 
             const projectId = project.id;
             toast.loading("Deploying project...");
+
+            setIsCreatingProject(false);
+            router.push(`/${user?.username.toLowerCase()}s-projects/${project.id}`);
+
             await fetch(`/api/deploy`, {
                 method: "POST",
                 headers: {
@@ -112,9 +114,6 @@ export default function New() {
 
             toast.getHistory().forEach((t) => toast.dismiss(t.id));
             toast.success("Project deployed successfully");
-
-            router.push(`/${user?.username.toLowerCase()}s-projects/${project.id}`);
-            setIsCreatingProject(false);
         }).catch((error) => {
             console.error("Error creating project:", error);
             setIsCreatingProject(false);

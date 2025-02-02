@@ -66,36 +66,37 @@ export default function Projects() {
                 setProject(project as unknown as ProjectRepository);
                 setIsLoading(false);
             }
+
+            return project;
         }
 
-        const fetchLatestDeployment = async () => {
-            if (!projectId) {
+        const fetchLatestDeployment = async (newProject: any) => {
+            if (!newProject?.id) {
+                console.error("Project not found.");
                 return;
             }
 
             const deployment = await pb.collection("deployments").getList(1, 1, {
-                sort: "-updated",
-                filter: `repository="${projectId}"`,
+                filter: `repository="${newProject?.id}"`,
             });
 
             if (deployment) {
                 setLatestDeployment(deployment.items[0] as unknown as Deployment);
-
-                await pb.collection("deployments").subscribe(`${deployment.items[0].id}`, function (e) {
-                    const action = e.action;
-                    const record = e.record;
-
-
-                    console.log("Deployment event:", action, record);
-                    if (action === "update") {
-                        setLatestDeployment(record as unknown as Deployment);
-                    }
-                });
             }
+
+            await pb.collection("deployments").subscribe(`*`, function (e) {
+                const action = e.action;
+                const record = e.record;
+
+                console.log("Deployment event:", action, record);
+                setLatestDeployment(record as unknown as Deployment);
+            }, {
+                filter: `repository="${newProject?.id}"`,
+            });
         }
 
-        fetchProject().then(() => {
-            fetchLatestDeployment();
+        fetchProject().then((project) => {
+            fetchLatestDeployment(project);
         });
     }, []);
 

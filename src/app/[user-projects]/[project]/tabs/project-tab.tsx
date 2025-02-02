@@ -101,7 +101,7 @@ export default function ProjectTab({ username, project, deployment }: { username
                                 <span className="px-2">Domains</span>
                             </Button>
                         </Link>
-                        <Link href={`https://${project?.domain_data?.domains[0]}`} passHref>
+                        <Link href={`https://${project?.domain_data?.domains[0]}:${deployment?.port ?? "0000"}/`}>
                             <Button variant={"default"}>Visit</Button>
                         </Link>
                     </div>
@@ -148,18 +148,26 @@ export default function ProjectTab({ username, project, deployment }: { username
                             <div className="flex flex-col space-y-6 mt-6 md:mt-0">
                                 <div>
                                     <Text size="label-14" color="gray-900">Deployment</Text>
-                                    <Link href={`https://${project?.domain_data?.domains[0]}`}>
-                                        <Text size="label-14">{project?.domain_data?.domains && project?.domain_data?.domains[0]}</Text>
-                                    </Link>
+                                    {deployment?.status !== "BUILDING" ? (
+                                        <Link href={`https://${project?.domain_data?.domains[0]}:${deployment?.port ?? '0000'}/`}>
+                                            <Text size="label-14">{project?.domain_data?.domains && project?.domain_data?.domains[0]}:{project?.domain_data && deployment?.port}</Text>
+                                        </Link>
+                                    ) : (
+                                        <Text size="label-14">Building...</Text>
+                                    )}
                                 </div>
                                 <div>
                                     <Text size="label-14" color="gray-900">Domains</Text>
                                     <span className="inline-flex items-center hover:underline">
-                                        <Link href={`https://${project?.domain_data?.domains[0]}`}>
-                                            <Text size="label-14">{project?.domain_data?.domains && project?.domain_data?.domains[0]}</Text>
-                                        </Link>
+                                        {deployment?.status !== "BUILDING" ? (
+                                            <Link href={`https://${project?.domain_data?.domains[0]}:${deployment?.port ?? '0000'}/`}>
+                                                <Text size="label-14">{project?.domain_data?.domains && project?.domain_data?.domains[0]}:{project?.domain_data && deployment?.port}</Text>
+                                            </Link>
+                                        ) : (
+                                            <Text size="label-14">Building...</Text>
+                                        )}
                                         <ExternalLinkIcon size={14} className="text-white ml-1.5" />
-                                        {project?.domain_data?.domains && project?.domain_data?.domains.length > 1 && (
+                                        {deployment?.status !== "BUILDING" && project?.domain_data?.domains && project?.domain_data?.domains.length > 1 && (
 
                                             <Tooltip
                                                 className="cursor-pointer font-mono"

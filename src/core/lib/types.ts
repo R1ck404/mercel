@@ -203,6 +203,7 @@ interface Deployment {
     builtTime?: string;
     commit?: GitHubCommit;
     by?: string;
+    port?: number;
     created: string;
     updated: string;
 }

@@ -1,5 +1,3 @@
-// middleware.ts
-
 import { createServerClient } from "next-pocketbase-auth";
 import { NextResponse, type NextRequest } from "next/server";
 

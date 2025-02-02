@@ -54,7 +54,10 @@ export async function POST(req: NextRequest) {
         const public_url = `${process.env.NEXT_PUBLIC_API_URL}`;
         const webhookUrl = `${public_url}api/webhook/listen`;
         const webhookSecret = process.env.GITHUB_WEBHOOK_SECRET || "webhook_secret";
-        const webhookId = await createGitHubWebhook(session.access_token, project.full_name, webhookUrl, webhookSecret);
+        const webhookId = await createGitHubWebhook(session.access_token, project.full_name, webhookUrl, webhookSecret).catch((error: any) => {
+            console.error("Error creating webhook:", error);
+            return "unknown";
+        });
 
         await pb.collection("repositories").update(projectId, {
             docker_id: container.id,

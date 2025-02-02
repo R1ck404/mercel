@@ -38,7 +38,7 @@ Mercel is a small-scale clone of Vercel, designed to mimic the UI and functional
 2. **Install Dependencies**
 
    ```bash
-   npm install
+   npm install --force
    ```
 
 3. **Set Up Environment Variables**
@@ -72,7 +72,7 @@ Mercel is a small-scale clone of Vercel, designed to mimic the UI and functional
    - Start the Next.js development server:
 
      ```bash
-     npm run start
+     npm run dev
      ```
 
    - Ensure Docker and Nginx are running if you plan to deploy the app.
